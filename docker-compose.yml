@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+  keycloak:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9900:8080"
+      - "8787:8787"
+    environment:
+      - ORIGINAL_BASE=https://idp.myothercompany.com
+      - DOMAIN=idp.mycompany.com
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=password
+      - KEYCLOAK_IMPORT=/tmp/realm-export.json
+      - PROXY_ADDRESS_FORWARDING=true
+      - JAVA_OPTS_APPEND="-Dkeycloak.profile.feature.upload_scripts=enabled"
+      - ORGANIZATION_ID=491a6eb7-9ea1-4612-a9b3-bfa25935bbb2
+      - AUDIENCE=https://circle-dev.mycompany.io/
+      - DEBUG=true
+      - DEBUG_PORT='*:8787'
+    volumes:
+      - ./realm-export.json:/tmp/realm-export.json
+      - ./certs:/tmp/certs:rw
+    networks:
+      - iam-dev
+
+networks:
+  iam-dev:
+    driver: bridge
