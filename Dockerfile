@@ -4,10 +4,10 @@ WORKDIR root
 COPY ./src/main ./src/main
 COPY ./pom.xml  ./
 RUN mvn install
-RUN mvn package
+RUN mvn package 
 
 FROM quay.io/keycloak/keycloak:latest
 
-COPY --from=build /root/src/main/resources/themes/mycompany/ /opt/jboss/keycloak/themes/mycompany
-COPY --from=build  /root/target/CustomUserProvider-0.0.1-SNAPSHOT.jar /opt/jboss/keycloak/standalone/deployments
+COPY --from=build /root/src/main/resources/themes/mydomain/ /opt/jboss/keycloak/themes/mydomain
+COPY --from=build  /root/target/FederatedUserStorage-0.0.1-SNAPSHOT.jar /opt/jboss/keycloak/standalone/deployments
 

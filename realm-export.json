@@ -1,7 +1,7 @@
 {
-  "id": "mycompany",
-  "realm": "mycompany",
-  "displayName": "Mycompany",
+  "id": "mydomain",
+  "realm": "mydomain",
+  "displayName": "MyDomain",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -27,7 +27,7 @@
   "oauth2DeviceCodeLifespan": 600,
   "oauth2DevicePollingInterval": 5,
   "enabled": true,
-  "sslRequired": "none",
+  "sslRequired": "external",
   "registrationAllowed": false,
   "registrationEmailAsUsername": false,
   "rememberMe": false,
@@ -52,12 +52,12 @@
         "description": "${role_offline-access}",
         "composite": false,
         "clientRole": false,
-        "containerId": "mycompany",
+        "containerId": "mydomain",
         "attributes": {}
       },
       {
         "id": "bdf0f782-957b-4963-9a42-93ccc53a2bb9",
-        "name": "default-roles-mycompany",
+        "name": "default-roles-mydomain",
         "description": "${role_default-roles}",
         "composite": true,
         "composites": {
@@ -73,7 +73,7 @@
           }
         },
         "clientRole": false,
-        "containerId": "mycompany",
+        "containerId": "mydomain",
         "attributes": {}
       },
       {
@@ -82,7 +82,7 @@
         "description": "${role_uma_authorization}",
         "composite": false,
         "clientRole": false,
-        "containerId": "mycompany",
+        "containerId": "mydomain",
         "attributes": {}
       }
     ],
@@ -392,18 +392,17 @@
           "containerId": "f08d72ff-495f-46af-b943-19f88e193454",
           "attributes": {}
         }
-      ],
-      "circle-dev": []
+      ]
     }
   },
   "groups": [],
   "defaultRole": {
     "id": "bdf0f782-957b-4963-9a42-93ccc53a2bb9",
-    "name": "default-roles-mycompany",
+    "name": "default-roles-mydomain",
     "description": "${role_default-roles}",
     "composite": true,
     "clientRole": false,
-    "containerId": "mycompany"
+    "containerId": "mydomain"
   },
   "requiredCredentials": [
     "password"
@@ -466,13 +465,13 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/mycompany/account/",
+      "baseUrl": "/realms/mydomain/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/mycompany/account/*"
+        "/realms/mydomain/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -507,13 +506,13 @@
       "clientId": "account-console",
       "name": "${client_account-console}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/mycompany/account/",
+      "baseUrl": "/realms/mydomain/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/mycompany/account/*"
+        "/realms/mydomain/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -630,88 +629,8 @@
       ]
     },
     {
-      "id": "2b79cac0-1067-4d27-a227-cc774af96e39",
-      "clientId": "my-other-app",
-      "rootUrl": "",
-      "baseUrl": "",
-      "surrogateAuthRequired": false,
-      "enabled": true,
-      "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
-      "redirectUris": [
-        "https://myotherapp.mycompany.com/redirect"
-      ],
-      "webOrigins": [],
-      "notBefore": 0,
-      "bearerOnly": false,
-      "consentRequired": false,
-      "standardFlowEnabled": true,
-      "implicitFlowEnabled": true,
-      "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": false,
-      "publicClient": true,
-      "frontchannelLogout": false,
-      "protocol": "openid-connect",
-      "attributes": {
-        "id.token.as.detached.signature": "false",
-        "saml.assertion.signature": "false",
-        "saml.force.post.binding": "false",
-        "saml.multivalued.roles": "false",
-        "saml.encrypt": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
-        "backchannel.logout.revoke.offline.tokens": "false",
-        "saml.server.signature": "false",
-        "saml.server.signature.keyinfo.ext": "false",
-        "use.refresh.tokens": "true",
-        "exclude.session.state.from.auth.response": "false",
-        "oidc.ciba.grant.enabled": "false",
-        "saml.artifact.binding": "false",
-        "backchannel.logout.session.required": "true",
-        "client_credentials.use_refresh_token": "false",
-        "saml_force_name_id_format": "false",
-        "require.pushed.authorization.requests": "false",
-        "saml.client.signature": "false",
-        "tls.client.certificate.bound.access.tokens": "false",
-        "saml.authnstatement": "false",
-        "display.on.consent.screen": "false",
-        "saml.onetimeuse.condition": "false"
-      },
-      "authenticationFlowBindingOverrides": {
-        "direct_grant": "54fe1d78-8ddd-4054-9683-57c87a7d200c",
-        "browser": "124a37a2-7dae-441e-83b1-84b5b198a557"
-      },
-      "fullScopeAllowed": true,
-      "nodeReRegistrationTimeout": -1,
-      "protocolMappers": [
-        {
-          "id": "003a1c15-8939-44da-9821-5b61a6c89ebd",
-          "name": "MycompanyMapper",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-customprotocolmapper",
-          "consentRequired": false,
-          "config": {
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "userinfo.token.claim": "false"
-          }
-        }
-      ],
-      "defaultClientScopes": [
-        "web-origins",
-        "profile",
-        "roles",
-        "email"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "offline_access",
-        "microprofile-jwt"
-      ]
-    },
-    {
       "id": "892457db-2ec4-4135-b10c-6d45f7d62d52",
-      "clientId": "my-app",
+      "clientId": "iam",
       "rootUrl": "",
       "adminUrl": "",
       "baseUrl": "",
@@ -720,8 +639,8 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "https://myapp.mycompany.com/*",
-        "http://localhost:9443/*"
+        "http://localhost:9443/*",
+        "http://localhost:4200/*"
       ],
       "webOrigins": [
         ""
@@ -742,7 +661,7 @@
         "saml.force.post.binding": "false",
         "saml.multivalued.roles": "false",
         "saml.encrypt": "false",
-        "login_theme": "mycompany",
+        "login_theme": "mydomain",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
         "saml.server.signature": "false",
@@ -768,8 +687,23 @@
       "nodeReRegistrationTimeout": -1,
       "protocolMappers": [
         {
+          "id": "82b66c2c-96ab-41d0-96b8-35e98c460378",
+          "name": "orgId",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "organizationId",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "organizationId",
+            "jsonType.label": "String"
+          }
+        },
+        {
           "id": "d055685a-55c3-4a74-af83-10845c3315fa",
-          "name": "MycompanyMapper",
+          "name": "mydomainMapper",
           "protocol": "openid-connect",
           "protocolMapper": "oidc-customprotocolmapper",
           "consentRequired": false,
@@ -835,13 +769,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/mycompany/console/",
+      "baseUrl": "/admin/mydomain/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/mycompany/console/*"
+        "/admin/mydomain/console/*"
       ],
       "webOrigins": [
         "+"
@@ -1402,7 +1336,7 @@
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
   "smtpServer": {},
-  "loginTheme": "mycompany",
+  "loginTheme": "mydomain",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
@@ -1523,8 +1457,8 @@
     "org.keycloak.storage.UserStorageProvider": [
       {
         "id": "254c26a6-d976-4a5d-9ba7-fca8d1da38d2",
-        "name": "custom-user-provider",
-        "providerId": "custom-user-provider",
+        "name": "thirdparty-user-provider",
+        "providerId": "thirdparty-user-provider",
         "subComponents": {},
         "config": {
           "cachePolicy": [

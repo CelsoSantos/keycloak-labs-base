@@ -1,1 +1,1 @@
-com.mycompany.auth.provider.user.CustomUserStorageProviderFactory
+com.mydomain.auth.provider.user.CustomUserStorageProviderFactory

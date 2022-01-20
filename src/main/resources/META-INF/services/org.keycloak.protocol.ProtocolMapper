@@ -1,1 +1,1 @@
-com.mycompany.auth.provider.user.CustomOIDCProtocolMapper
+com.mydomain.auth.provider.user.CustomOIDCProtocolMapper

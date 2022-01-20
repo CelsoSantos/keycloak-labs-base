@@ -8,15 +8,16 @@ services:
       - "9900:8080"
       - "8787:8787"
     environment:
-      - ORIGINAL_BASE=https://idp.myothercompany.com
-      - DOMAIN=idp.mycompany.com
+      # - IDP_BASE_URL=https://idp.thirdparty.com
+      - IDP_BASE_URL=https://run.mocky.io
+      - DOMAIN=keycloak.mydomain.com
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=password
       - KEYCLOAK_IMPORT=/tmp/realm-export.json
       - PROXY_ADDRESS_FORWARDING=true
       - JAVA_OPTS_APPEND="-Dkeycloak.profile.feature.upload_scripts=enabled"
       - ORGANIZATION_ID=491a6eb7-9ea1-4612-a9b3-bfa25935bbb2
-      - AUDIENCE=https://circle-dev.mycompany.io/
+      - AUDIENCE=https://dev.mydomain.com/
       - DEBUG=true
       - DEBUG_PORT='*:8787'
     volumes:
