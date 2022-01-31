@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.ProtocolMapperModel;
+import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.ProtocolMapperUtils;
@@ -17,6 +19,7 @@ import org.keycloak.protocol.oidc.mappers.OIDCAttributeMapperHelper;
 import org.keycloak.protocol.oidc.mappers.OIDCIDTokenMapper;
 import org.keycloak.protocol.oidc.mappers.UserInfoTokenMapper;
 import org.keycloak.provider.ProviderConfigProperty;
+import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.IDToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,55 +94,54 @@ public class CustomOIDCProtocolMapper extends AbstractOIDCProtocolMapper
     }
   }
 
-//  @Override
-//  public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel,
-//      KeycloakSession session, UserSessionModel userSession,
-//      ClientSessionContext clientSessionCtx) {
-//    log.info("SOAM: inside transformAccessToken");
-//
-//    CustomUserStorageProvider storageProvider = new CustomUserStorageProvider(session);
-//    AccessToken augmentedToken = putIntoToken(storageProvider, token, userSession);
-//
-//    setClaim(augmentedToken, mappingModel, userSession, session, clientSessionCtx);
-//    return augmentedToken;
-//  }
+  @Override
+  public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel,
+      KeycloakSession session, UserSessionModel userSession,
+      ClientSessionContext clientSessionCtx) {
+    log.info("SOAM: inside transformAccessToken");
+
+    AccessToken augmentedToken = putIntoToken(token, userSession);
+
+    setClaim(augmentedToken, mappingModel, userSession, session, clientSessionCtx);
+    return augmentedToken;
+  }
 
   private IDToken setIdTokenNameClaims(IDToken token, UserSessionModel session) {
     log.info("SOAM: inside setIdTokenNameClaims");
 
     // Just checking what we can get from the User
-    log.info("User: {}", session.getUser().getUsername());
     UserModel model = session.getUser();
-    log.info("Attributes: ");
-    model.getAttributes().values().stream().forEach(attr -> log.info(attr.toString()));
+    log.info("User: {}", model.getUsername());
 
     token.setFamilyName(model.getLastName());
     token.setGivenName(model.getFirstName());
-//    token.setName(model.getFullName());
+    token.setName(model.getFirstAttribute("name"));
     return token;
   }
 
-//  private AccessToken putIntoToken(CustomUserStorageProvider provider, AccessToken token, UserSessionModel userSession) {
-//
-////    JwtAdditionalContentDto additionalContent = provider.getJwtAdditionalContent();
-//    JwtAdditionalContentDto additionalContent = CustomUserStorageProvider.getJwtAdditionalContent();
-//    RecordDto userInfo = additionalContent.getUserInfo();
-//
-//    token.getOtherClaims().put("https://mydomain.com/parent_token", additionalContent.getParentToken().orElse(""));
-//    token.getOtherClaims().put("https://mydomain.com/name", userInfo.getUserFullName());
-//    token.getOtherClaims().put("https://mydomain.com/email", userInfo.getUserEmail());
-//    if (userInfo.getUserPhoneNumber().isPresent())
-//      token.getOtherClaims().put("https://mydomain.com/phone_number", userInfo.getUserPhoneNumber().orElse(""));
-//    token.getOtherClaims().put("https://mydomain.com/user_roles", userInfo.getUserRoles());
-//    token.getOtherClaims().put("https://mydomain.com/zoneinfo", "UTC");
+  private AccessToken putIntoToken(AccessToken token, UserSessionModel session) {
+
+    UserModel model = session.getUser();
+
+    log.info("Attributes: {}", model.getAttributes()
+        .values());
+
+    // if (model.getFirstAttribute("phone") != null && !model.getFirstAttribute("phone").isBlank())
+    //   token.getOtherClaims().put("https://mydomain.com/phone_number", model.getFirstAttribute("phone"));
+
+    token.getOtherClaims().put("https://mydomain.com/user_roles",
+        model.getRoleMappingsStream()
+            .map(RoleModel::getName)
+            .collect(Collectors.toUnmodifiableList()));
+    token.getOtherClaims().put("https://mydomain.com/zoneinfo", "UTC");
 //    token.getOtherClaims().put("https://mydomain.com/organization_id", System.getenv("ORGANIZATION_ID"));
-//
-//    token.setSubject(userInfo.getId());
-//    token.addAudience(System.getenv("AUDIENCE"));
-//    token.addAudience("https://csantos.no-ip.biz/api/v2/");
-//
-//    return token;
-//  }
+
+    token.setSubject(model.getFirstAttribute("originalId"));
+    token.addAudience(System.getenv("AUDIENCE"));
+    token.addAudience("https://site.mydomain.com/api/v2/");
+
+    return token;
+  }
 
   public static ProtocolMapperModel create(String name, boolean accessToken, boolean idToken,
       boolean userInfo, String tokenClaimName) {

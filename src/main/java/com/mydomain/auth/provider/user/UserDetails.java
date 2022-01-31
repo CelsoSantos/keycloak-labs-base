@@ -6,7 +6,7 @@ public interface UserDetails {
 
 //    String getOrganizationId();
 
-    String getUserId();
+    String getId();
 
     String getUsername();
 

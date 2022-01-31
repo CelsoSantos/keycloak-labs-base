@@ -40,11 +40,14 @@ public class CustomUserStorageProvider implements
 
 	private RestClient client;
 
+	private UserModelFactory userModelFactory;
+
 	// UserStorageProvider
 
-	public CustomUserStorageProvider(KeycloakSession ksession, ComponentModel model) {
+	public CustomUserStorageProvider(KeycloakSession ksession, ComponentModel model, UserModelFactory factory) {
 		this.ksession = ksession;
 		this.model = model;
+		this.userModelFactory = factory;
 		this.client = new RestClient();
 	}
 
@@ -127,7 +130,7 @@ public class CustomUserStorageProvider implements
 				// Clean the "temporary" record with just the user email
 				UserModel adapter = findUser(realm, user.getEmail());
 				if (adapter != null) {
-					loadedUsers.remove(adapter);
+					loadedUsers.remove(adapter.getId());
 //					ksession.userLocalStorage().removeUser(realm, adapter);
 				}
 
@@ -136,7 +139,7 @@ public class CustomUserStorageProvider implements
 				// Now that we have the userData with all information, set the model with all properties and attributes
 				//TODO: For some reason, looks like the username is not being properly set by the JSON mapping.
 				userRecord.setUsername(userRecord.getEmail()); // Set the username so the adapter doesn't fail
-				UserModel newAdapter = new FederatedUserAdapter(ksession, realm, model, userRecord);
+				UserModel newAdapter = userModelFactory.create(realm, userRecord);
 				loadedUsers.put(user.getUsername(), newAdapter);
 //				ksession.userLocalStorage().addUser(realm, newAdapter);
 
@@ -225,20 +228,19 @@ public class CustomUserStorageProvider implements
 	// Local utility methods
 
 	private UserModel findUser(RealmModel realm, String identifier) {
-		UserModel adapter = loadedUsers.get(identifier);
+		UserModel adapter = ksession.userLocalStorage().getUserById(realm, identifier);// loadedUsers.get(identifier);
 
 		if (adapter == null) {
 			try {
 				// Create a "temporary" userModel with just the email, I don't have any more information at the moment
-				//adapter = new ReadOnlyUserAdapter(ksession, realm, model, identifier);
-				adapter = new FederatedUserAdapter(ksession, realm, model, identifier);
+				adapter = new ReadOnlyUserAdapter(ksession, realm, model, identifier);
 				loadedUsers.put(identifier, adapter);
 			} catch (WebApplicationException e) {
-				log.warn("User with identifier '%s' could not be found, response from server: %s", identifier,
+				log.warn("User with identifier '{}' could not be found, response from server: {}", identifier,
 						e.getResponse().getStatus());
 			}
 		} else {
-			log.debug("Found user data for %s in loadedUsers.", identifier);
+			log.debug("Found user data for {} in loadedUsers.", identifier);
 		}
 
 		return adapter;

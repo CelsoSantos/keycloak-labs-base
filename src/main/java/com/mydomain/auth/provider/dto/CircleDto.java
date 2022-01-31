@@ -1,23 +1,28 @@
 package com.mydomain.auth.provider.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class CircleDto {
+
+	@Getter
+	@Setter
 	private boolean actionableContent;
+
+	@Getter
+	@Setter
 	private boolean mipIndicative;
 
-	public boolean isActionableContent() {
-		return actionableContent;
-	}
+	@Getter
+	@Setter
+	private boolean mipFull;
 
-	public void setActionableContent(boolean actionableContent) {
-		this.actionableContent = actionableContent;
-	}
+	@Getter
+	@Setter
+	private boolean lcmBasic;
 
-	public boolean isMipIndicative() {
-		return mipIndicative;
-	}
-
-	public void setMipIndicative(boolean mipIndicative) {
-		this.mipIndicative = mipIndicative;
-	}
+	@Getter
+	@Setter
+	private boolean lcmFull;
 
 }

@@ -84,6 +84,46 @@
         "clientRole": false,
         "containerId": "mydomain",
         "attributes": {}
+      },
+      {
+        "id": "339ed33b-f5e7-42ec-a4ca-2f7132430a5c",
+        "name": "ac-consumer",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "mydomain",
+        "attributes": {}
+      },
+      {
+        "id": "64655e14-0031-478e-80ea-392145f07e19",
+        "name": "mip-indicative",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "mydomain",
+        "attributes": {}
+      },
+      {
+        "id": "37d3120e-fc27-4e7f-a30d-b4121c3c3598",
+        "name": "mip-full",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "mydomain",
+        "attributes": {}
+      },
+      {
+        "id": "09a95082-b7ca-4482-b930-13f7353b26c1",
+        "name": "lcm-basic",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "mydomain",
+        "attributes": {}
+      },
+      {
+        "id": "803c6f0b-c65e-47bd-b8ae-f3280a9a53c3",
+        "name": "lcm-full",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "mydomain",
+        "attributes": {}
       }
     ],
     "client": {
@@ -687,23 +727,8 @@
       "nodeReRegistrationTimeout": -1,
       "protocolMappers": [
         {
-          "id": "82b66c2c-96ab-41d0-96b8-35e98c460378",
-          "name": "orgId",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usermodel-attribute-mapper",
-          "consentRequired": false,
-          "config": {
-            "userinfo.token.claim": "true",
-            "user.attribute": "organizationId",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "organizationId",
-            "jsonType.label": "String"
-          }
-        },
-        {
           "id": "d055685a-55c3-4a74-af83-10845c3315fa",
-          "name": "mydomainMapper",
+          "name": "MydomainMapper",
           "protocol": "openid-connect",
           "protocolMapper": "oidc-customprotocolmapper",
           "consentRequired": false,
@@ -711,6 +736,81 @@
             "id.token.claim": "true",
             "access.token.claim": "true",
             "userinfo.token.claim": "false"
+          }
+        },
+        {
+          "id": "82b66c2c-96ab-41d0-96b8-35e98c460378",
+          "name": "https://mydomain.com/organization_id",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "organizationId",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "claim.name": "https://mydomain\\.com/organization_id",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "27b7b36e-9496-402b-9a4e-ea0c5a4b7430",
+          "name": "https://mydomain.com/parent_token",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "parentToken",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "claim.name": "https://mydomain\\.com/parent_token",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "93060f0c-8c09-4edc-8f10-d85bfb0661c1",
+          "name": "https://mydomain.com/name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "name",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "https://mydomain\\.com/name",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "498d09e6-c97b-4ff7-9c06-cc0c25703beb",
+          "name": "https://mydomain.com/phone_number",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "phone",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "claim.name": "https://mydomain\\.com/phone_number",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "4ce3d83e-c256-42e6-87e4-7ccd0cdd727a",
+          "name": "https://mydomain.com/email",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "email",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "claim.name": "https://mydomain\\.com/email",
+            "jsonType.label": "String"
           }
         }
       ],

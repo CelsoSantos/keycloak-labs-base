@@ -77,7 +77,7 @@ public class FederatedUserAdapter extends AbstractUserAdapterFederatedStorage {
 
     this.setSingleAttribute("parentToken", user.getSessionId());
     this.setSingleAttribute("name", user.getFullName());
-    this.setSingleAttribute("userId", user.getUserId());
+    this.setSingleAttribute("userId", user.getId());
     this.setSingleAttribute("phoneNumber", user.getPhoneNumber());
     this.setSingleAttribute("organizationId", System.getenv("ORGANIZATION_ID"));
 

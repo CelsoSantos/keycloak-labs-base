@@ -16,7 +16,7 @@ public class RecordDto implements UserDetails {
 	@Getter
 	@Setter
 	@JsonProperty("id")
-	private String userId;
+	private String id;
 
 //	@Getter
 //	@Setter

@@ -21,7 +21,8 @@ public final class CustomUserStorageProviderFactory
   @Override
   public CustomUserStorageProvider create(KeycloakSession ksession, ComponentModel model) {
     log.info("[I63] creating new CustomUserStorageProvider");
-    return new CustomUserStorageProvider(ksession, model);
+    var userModelFactory = new UserModelFactory(ksession, model);
+    return new CustomUserStorageProvider(ksession, model, userModelFactory);
   }
 
   @Override
