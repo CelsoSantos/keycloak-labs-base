@@ -1,9 +1,37 @@
 version: "3.3"
 services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - 8443:80
+    environment:
+      - KEYCLOAK_URL=http://keycloak:9900 # Add this to your hosts file: "127.0.0.1 keycloak"
+      - KEYCLOAK_REALM=mydomain
+      - KEYCLOAK_CLIENT_ID=iam
+      - BACKEND_BASE_PATH=http://backend:9000
+    depends_on:
+      - keycloak
+      - backend
+    networks:
+      - iam-dev
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - 9000:9000
+    environment:
+      - APP_NAME=movies-app
+      - KEYCLOAK_URL=http://keycloak:9900
+      - KEYCLOAK_REALM=mydomain
+    depends_on:
+      - keycloak
+    networks:
+      - iam-dev
+
   keycloak:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: ./keycloak
     ports:
       - "9900:8080"
       - "8787:8787"
@@ -21,7 +49,7 @@ services:
       - DEBUG=true
       - DEBUG_PORT='*:8787'
     volumes:
-      - ./realm-export.json:/tmp/realm-export.json
+      - ./keycloak/realm-export.json:/tmp/realm-export.json
       - ./certs:/tmp/certs:rw
     networks:
       - iam-dev

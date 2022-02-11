@@ -1,0 +1,5 @@
+{
+    "KEYCLOAK_URL": "http://keycloak:9900",
+    "KEYCLOAK_REALM": "mydomain",
+    "KEYCLOAK_CLIENT_ID": "iam"
+}
