@@ -1,0 +1,77 @@
+# Log
+
+> NOTE:
+> Open HAR files with <https://toolbox.googleapps.com/apps/har_analyzer/>
+
+## First login (no user exists before this)
+
+### Keycloak Logs
+
+```log
+21:58:57,662 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProviderFactory] (default task-4) [I63] creating new CustomUserStorageProvider
+21:58:57,688 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I48] getUserByEmail(some.user@thirdparty.com)
+21:58:57,688 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I69] findUser(identifier=some.user@thirdparty.com)
+21:58:57,691 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) Loaded Users: 
+21:58:57,691 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I70] no user in loadedusers.. getting from localstorage...
+21:58:57,697 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I71] no user in localstorage.. creating ReadOnlyAdapter
+21:58:57,703 INFO  [com.mydomain.auth.provider.user.ReadOnlyUserAdapter] (default task-4) [I41] create new ReadOnlyUserAdapter(some.user@thirdparty.com)
+21:58:57,742 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I57] supportsCredentialType(password)
+21:58:57,743 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I35] getUserById(f:254c26a6-d976-4a5d-9ba7-fca8d1da38d2:some.user@thirdparty.com)
+21:58:57,743 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I41] getUserByUsername(some.user@thirdparty.com)
+21:58:57,744 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I69] findUser(identifier=some.user@thirdparty.com)
+21:58:57,745 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) Loaded Users: com.mydomain.auth.provider.user.ReadOnlyUserAdapter@f:254c26a6-d976-4a5d-9ba7-fca8d1da38d2:some.user@thirdparty.com
+21:58:57,745 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I57] isValid(realm=mydomain,user=some.user@thirdparty.com,credentialInput.type=password)
+21:58:57,746 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I57] supportsCredentialType(password)
+21:58:58,761 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I9] Checking if temporary user exists..
+21:58:58,762 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I69] findUser(identifier=some.user@thirdparty.com)
+21:58:58,762 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) Loaded Users: com.mydomain.auth.provider.user.ReadOnlyUserAdapter@f:254c26a6-d976-4a5d-9ba7-fca8d1da38d2:some.user@thirdparty.com
+21:58:58,762 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I10] Removing id=f:254c26a6-d976-4a5d-9ba7-fca8d1da38d2:some.user@thirdparty.com; username=some.user@thirdparty.com from adapter
+21:58:58,762 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I11] Adapter type: class com.mydomain.auth.provider.user.ReadOnlyUserAdapter
+21:58:58,763 INFO  [com.mydomain.auth.provider.user.UserModelFactory] (default task-4) Creating user model for: some.user@thirdparty.com
+21:58:58,805 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I57] supportsCredentialType(otp)
+21:58:58,815 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I35] getUserById(f:254c26a6-d976-4a5d-9ba7-fca8d1da38d2:some.user@thirdparty.com)
+21:58:58,815 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I41] getUserByUsername(some.user@thirdparty.com)
+21:58:58,815 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I69] findUser(identifier=some.user@thirdparty.com)
+21:58:58,815 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) Loaded Users: org.keycloak.models.jpa.UserAdapter@fd66ee0d
+21:58:59,052 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I35] getUserById(f:254c26a6-d976-4a5d-9ba7-fca8d1da38d2:some.user@thirdparty.com)
+21:58:59,052 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I41] getUserByUsername(some.user@thirdparty.com)
+21:58:59,053 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I69] findUser(identifier=some.user@thirdparty.com)
+21:58:59,053 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) Loaded Users: org.keycloak.models.jpa.UserAdapter@fd66ee0d
+21:58:59,058 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I35] getUserById(f:254c26a6-d976-4a5d-9ba7-fca8d1da38d2:some.user@thirdparty.com)
+21:58:59,058 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I41] getUserByUsername(some.user@thirdparty.com)
+21:58:59,058 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I69] findUser(identifier=some.user@thirdparty.com)
+21:58:59,058 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) Loaded Users: org.keycloak.models.jpa.UserAdapter@fd66ee0d
+21:58:59,093 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I30] close()
+```
+
+### Resulting Token
+
+```
+eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNNmhhNDdmdnlMZkRVbGtYMy1jWjZHQS1xZzZPSE5vX3JrVG1qOEJ2by1zIn0.eyJleHAiOjE2NDQ1MzEyMzksImlhdCI6MTY0NDUzMDMzOSwiYXV0aF90aW1lIjoxNjQ0NTMwMzM5LCJqdGkiOiIzMTg1OThmMy05ODNlLTQwN2QtYTc4OS1iNGJlNDY1MzMxMDkiLCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6OTkwMC9hdXRoL3JlYWxtcy9teWRvbWFpbiIsImF1ZCI6WyJodHRwczovL2Rldi5teWRvbWFpbi5jb20iLCJodHRwOi8vZGV2LnRoaXJkLXBhcnR5LmNvbS9hcGkvdjIvIiwiYWNjb3VudCJdLCJzdWIiOiJmOjI1NGMyNmE2LWQ5NzYtNGE1ZC05YmE3LWZjYThkMWRhMzhkMjpzb21lLnVzZXJAdGhpcmRwYXJ0eS5jb20iLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJpYW0iLCJub25jZSI6ImQ0ZmQzMmZkLTQ1NGEtNDFlYi04NTNiLTVmM2Q4ODU2NzBkNCIsInNlc3Npb25fc3RhdGUiOiI0ZmJhMGEwYi01YjU0LTRhN2MtODMzNy00NjEzZWYwMTg1NDIiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1teWRvbWFpbiIsInVtYV9hdXRob3JpemF0aW9uIiwiYWMtY29uc3VtZXIiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBtb250YmxhbmMgcHJvZmlsZSIsInNpZCI6IjRmYmEwYTBiLTViNTQtNGE3Yy04MzM3LTQ2MTNlZjAxODU0MiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiaHR0cDovL215ZG9tYWluLmNvbS91c2VyX3JvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1teWRvbWFpbiIsInVtYV9hdXRob3JpemF0aW9uIiwiYWMtY29uc3VtZXIiXSwicHJlZmVycmVkX3VzZXJuYW1lIjoic29tZS51c2VyQHRoaXJkcGFydHkuY29tIn0.buH8B90Opvm-3Ql_d-dtrPse9ZL-cVsptCLPjp8gB9VMeVijHXiRZTD9YbdqxuGD24VHi1wD3uhCAypSNUtHvD4TOGBTYkXZedoVvc1uT4PO8eAxLVTZGcnY0oRtj5WK06hYAhf5F_8Cbp0Ed10ZXtCNR8AfJcmjya78gG7o3TmZeWP6Hui0G8A1ehfdE2fTypPEcxIUNfLs0mcNXba6BVcLS1Wge4Cr0gKBB4CoNEiWDOLypa0fd5KSFfnkr5bt7NCh-VIwAP9Br3nKAZa-belKXze95RW66SAu31Hxzf2mEGaTelK2zXlcKyCVaj7fLNR-nsnBZ7eI2ji3-N1RMw
+```
+
+To see on [jwt.io](https://jwt.io/), click [here](https://jwt.io/#debugger-io?token=eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNNmhhNDdmdnlMZkRVbGtYMy1jWjZHQS1xZzZPSE5vX3JrVG1qOEJ2by1zIn0.eyJleHAiOjE2NDQ1MzEyMzksImlhdCI6MTY0NDUzMDMzOSwiYXV0aF90aW1lIjoxNjQ0NTMwMzM5LCJqdGkiOiIzMTg1OThmMy05ODNlLTQwN2QtYTc4OS1iNGJlNDY1MzMxMDkiLCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6OTkwMC9hdXRoL3JlYWxtcy9teWRvbWFpbiIsImF1ZCI6WyJodHRwczovL2Rldi5teWRvbWFpbi5jb20iLCJodHRwOi8vZGV2LnRoaXJkLXBhcnR5LmNvbS9hcGkvdjIvIiwiYWNjb3VudCJdLCJzdWIiOiJmOjI1NGMyNmE2LWQ5NzYtNGE1ZC05YmE3LWZjYThkMWRhMzhkMjpzb21lLnVzZXJAdGhpcmRwYXJ0eS5jb20iLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJpYW0iLCJub25jZSI6ImQ0ZmQzMmZkLTQ1NGEtNDFlYi04NTNiLTVmM2Q4ODU2NzBkNCIsInNlc3Npb25fc3RhdGUiOiI0ZmJhMGEwYi01YjU0LTRhN2MtODMzNy00NjEzZWYwMTg1NDIiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1teWRvbWFpbiIsInVtYV9hdXRob3JpemF0aW9uIiwiYWMtY29uc3VtZXIiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBtb250YmxhbmMgcHJvZmlsZSIsInNpZCI6IjRmYmEwYTBiLTViNTQtNGE3Yy04MzM3LTQ2MTNlZjAxODU0MiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiaHR0cDovL215ZG9tYWluLmNvbS91c2VyX3JvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1teWRvbWFpbiIsInVtYV9hdXRob3JpemF0aW9uIiwiYWMtY29uc3VtZXIiXSwicHJlZmVycmVkX3VzZXJuYW1lIjoic29tZS51c2VyQHRoaXJkcGFydHkuY29tIn0.buH8B90Opvm-3Ql_d-dtrPse9ZL-cVsptCLPjp8gB9VMeVijHXiRZTD9YbdqxuGD24VHi1wD3uhCAypSNUtHvD4TOGBTYkXZedoVvc1uT4PO8eAxLVTZGcnY0oRtj5WK06hYAhf5F_8Cbp0Ed10ZXtCNR8AfJcmjya78gG7o3TmZeWP6Hui0G8A1ehfdE2fTypPEcxIUNfLs0mcNXba6BVcLS1Wge4Cr0gKBB4CoNEiWDOLypa0fd5KSFfnkr5bt7NCh-VIwAP9Br3nKAZa-belKXze95RW66SAu31Hxzf2mEGaTelK2zXlcKyCVaj7fLNR-nsnBZ7eI2ji3-N1RMw)
+
+---
+
+## Refresh page
+
+### Keycloak Logs
+
+```log
+22:02:21,983 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProviderFactory] (default task-4) [I63] creating new CustomUserStorageProvider
+22:02:21,984 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I35] getUserById(f:254c26a6-d976-4a5d-9ba7-fca8d1da38d2:some.user@thirdparty.com)
+22:02:21,984 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I41] getUserByUsername(some.user@thirdparty.com)
+22:02:21,984 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I69] findUser(identifier=some.user@thirdparty.com)
+22:02:21,984 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) Loaded Users: 
+22:02:21,984 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I70] no user in loadedusers.. getting from localstorage...
+22:02:22,122 INFO  [com.mydomain.auth.provider.user.CustomUserStorageProvider] (default task-4) [I30] close()
+```
+
+### Resulting Token
+
+```
+eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNNmhhNDdmdnlMZkRVbGtYMy1jWjZHQS1xZzZPSE5vX3JrVG1qOEJ2by1zIn0.eyJleHAiOjE2NDQ1MzE0NDIsImlhdCI6MTY0NDUzMDU0MiwiYXV0aF90aW1lIjoxNjQ0NTMwMzM5LCJqdGkiOiJkNDBmM2FjYy05NzBiLTQ0MjktOTg5Yy1mZTE4NjQwMzAyYTYiLCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6OTkwMC9hdXRoL3JlYWxtcy9teWRvbWFpbiIsImF1ZCI6WyJodHRwczovL2Rldi5teWRvbWFpbi5jb20iLCJodHRwOi8vZGV2LnRoaXJkLXBhcnR5LmNvbS9hcGkvdjIvIiwiYWNjb3VudCJdLCJzdWIiOiJzb21lLnVzZXJAdGhpcmRwYXJ0eS5jb20iLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJpYW0iLCJub25jZSI6ImUzNTBkZGQwLTMwNjgtNDJiNC04NGQ3LTUyNGE3YTI2M2NhYSIsInNlc3Npb25fc3RhdGUiOiI0ZmJhMGEwYi01YjU0LTRhN2MtODMzNy00NjEzZWYwMTg1NDIiLCJhY3IiOiIwIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1teWRvbWFpbiIsInVtYV9hdXRob3JpemF0aW9uIiwiYWMtY29uc3VtZXIiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBtb250YmxhbmMgcHJvZmlsZSIsInNpZCI6IjRmYmEwYTBiLTViNTQtNGE3Yy04MzM3LTQ2MTNlZjAxODU0MiIsInN1YiI6IjEwMDAwMCIsInpvbmVpbmZvIjoiVVRDIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6InNvbWUudXNlckB0aGlyZHBhcnR5LmNvbSIsImdpdmVuX25hbWUiOiJGaXJzdCIsImh0dHA6Ly9teWRvbWFpbi5jb20vb3JnYW5pemF0aW9uX2lkIjoiNDkxYTZlYjctOWVhMS00NjEyLWE5YjMtYmZhMjU5MzViYmIyIiwiaHR0cDovL215ZG9tYWluLmNvbS9waG9uZV9udW1iZXIiOiIiLCJodHRwOi8vbXlkb21haW4uY29tL25hbWUiOiJGaXJzdCBMYXN0IiwibmFtZSI6IkZpcnN0IExhc3QiLCJodHRwOi8vbXlkb21haW4uY29tL3pvbmVpbmZvIjoiVVRDIiwiaHR0cDovL215ZG9tYWluLmNvbS91c2VyX3JvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1teWRvbWFpbiIsInVtYV9hdXRob3JpemF0aW9uIiwiYWMtY29uc3VtZXIiXSwiaHR0cDovL215ZG9tYWluLmNvbS9lbWFpbCI6InNvbWUudXNlckB0aGlyZHBhcnR5LmNvbSIsImZhbWlseV9uYW1lIjoiTGFzdCIsImVtYWlsIjoic29tZS51c2VyQHRoaXJkcGFydHkuY29tIiwiaHR0cDovL215ZG9tYWluLmNvbS9wYXJlbnRfdG9rZW4iOiJhYjNlNWQ1ZjNiZjFhZDJhMjA4MGU3NzE1YjRlMDVlMzIwMjIwMTIwMTYzMDAwMzE3In0.i7fJ43Aa3Wv_06OUw1xXmJVPNCIHnYZt7zul4_WBxzuKdjsbsPzZhiPIIP0qUBIFj3eelkRxsey_5AruAOqjCnSlLRHvKRhonzye8tLJY0iTfQ-t_JXQ0uInXRLQMJBa7o80QLTvr3Jxxn97Y5nK195l4th_nJvZmZU5oCBbQTDBpBUOXzTWuW0odm-UsQxa_9q4ClMxAXU4Cm1y3JYXRe8UQbVjdGvsq8FL16fJRLbQ6cMbqjvyvxWjispCIvvsWOL7ekLDRJ4HMTFHtBXC-0W78-iHlL6fGqZuJnsdfffqXXYdxFRlNbovAqvpbBW7MNjt8bqRnT3ny47BbFQQqg
+```
+
+To see on [jwt.io](https://jwt.io/), click [here](https://jwt.io/#debugger-io?token=eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNNmhhNDdmdnlMZkRVbGtYMy1jWjZHQS1xZzZPSE5vX3JrVG1qOEJ2by1zIn0.eyJleHAiOjE2NDQ1MzE0NDIsImlhdCI6MTY0NDUzMDU0MiwiYXV0aF90aW1lIjoxNjQ0NTMwMzM5LCJqdGkiOiJkNDBmM2FjYy05NzBiLTQ0MjktOTg5Yy1mZTE4NjQwMzAyYTYiLCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6OTkwMC9hdXRoL3JlYWxtcy9teWRvbWFpbiIsImF1ZCI6WyJodHRwczovL2Rldi5teWRvbWFpbi5jb20iLCJodHRwOi8vZGV2LnRoaXJkLXBhcnR5LmNvbS9hcGkvdjIvIiwiYWNjb3VudCJdLCJzdWIiOiJzb21lLnVzZXJAdGhpcmRwYXJ0eS5jb20iLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJpYW0iLCJub25jZSI6ImUzNTBkZGQwLTMwNjgtNDJiNC04NGQ3LTUyNGE3YTI2M2NhYSIsInNlc3Npb25fc3RhdGUiOiI0ZmJhMGEwYi01YjU0LTRhN2MtODMzNy00NjEzZWYwMTg1NDIiLCJhY3IiOiIwIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1teWRvbWFpbiIsInVtYV9hdXRob3JpemF0aW9uIiwiYWMtY29uc3VtZXIiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBtb250YmxhbmMgcHJvZmlsZSIsInNpZCI6IjRmYmEwYTBiLTViNTQtNGE3Yy04MzM3LTQ2MTNlZjAxODU0MiIsInN1YiI6IjEwMDAwMCIsInpvbmVpbmZvIjoiVVRDIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6InNvbWUudXNlckB0aGlyZHBhcnR5LmNvbSIsImdpdmVuX25hbWUiOiJGaXJzdCIsImh0dHA6Ly9teWRvbWFpbi5jb20vb3JnYW5pemF0aW9uX2lkIjoiNDkxYTZlYjctOWVhMS00NjEyLWE5YjMtYmZhMjU5MzViYmIyIiwiaHR0cDovL215ZG9tYWluLmNvbS9waG9uZV9udW1iZXIiOiIiLCJodHRwOi8vbXlkb21haW4uY29tL25hbWUiOiJGaXJzdCBMYXN0IiwibmFtZSI6IkZpcnN0IExhc3QiLCJodHRwOi8vbXlkb21haW4uY29tL3pvbmVpbmZvIjoiVVRDIiwiaHR0cDovL215ZG9tYWluLmNvbS91c2VyX3JvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1teWRvbWFpbiIsInVtYV9hdXRob3JpemF0aW9uIiwiYWMtY29uc3VtZXIiXSwiaHR0cDovL215ZG9tYWluLmNvbS9lbWFpbCI6InNvbWUudXNlckB0aGlyZHBhcnR5LmNvbSIsImZhbWlseV9uYW1lIjoiTGFzdCIsImVtYWlsIjoic29tZS51c2VyQHRoaXJkcGFydHkuY29tIiwiaHR0cDovL215ZG9tYWluLmNvbS9wYXJlbnRfdG9rZW4iOiJhYjNlNWQ1ZjNiZjFhZDJhMjA4MGU3NzE1YjRlMDVlMzIwMjIwMTIwMTYzMDAwMzE3In0.i7fJ43Aa3Wv_06OUw1xXmJVPNCIHnYZt7zul4_WBxzuKdjsbsPzZhiPIIP0qUBIFj3eelkRxsey_5AruAOqjCnSlLRHvKRhonzye8tLJY0iTfQ-t_JXQ0uInXRLQMJBa7o80QLTvr3Jxxn97Y5nK195l4th_nJvZmZU5oCBbQTDBpBUOXzTWuW0odm-UsQxa_9q4ClMxAXU4Cm1y3JYXRe8UQbVjdGvsq8FL16fJRLbQ6cMbqjvyvxWjispCIvvsWOL7ekLDRJ4HMTFHtBXC-0W78-iHlL6fGqZuJnsdfffqXXYdxFRlNbovAqvpbBW7MNjt8bqRnT3ny47BbFQQqg)
