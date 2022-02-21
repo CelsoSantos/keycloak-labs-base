@@ -12,7 +12,7 @@ This project consists of 3 containers:
 
 This document describes how to use Keycloak – Third-Party User Provider and his features. Project contains a number of modules, here is a quick description of what each module does:
 
-- ThirdParty User Provider - It allows us to hook up with a Third-Party BE.
+- ThirdParty User Provider - It allows us to hook up with a Third-Party BE that replicates/mocks a real API/BE behaviour & data.
 
 - MyDomain Theme – Style Keycloak login page to look like MyDomain login page.
 
@@ -26,14 +26,27 @@ This document describes how to use Keycloak – Third-Party User Provider and hi
 - Add an entry to your `hosts` file with the following: `127.0.0.1   keycloak`. 
   - Alternatively, modify the configuration/code to suit your environment.
 
+## Configured users
+
+- Keycloak Administration:
+  - user: "admin"
+  - password: "password"
+- Frontend:
+  - user: "some.user@thirdparty.com"
+  - password: any non-blank password (no enforcement, just mock data)
+
 ## Start the project:
 
 At the root of the project, run the following commands:
 
-- Run: docker compose build
-- Run: docker compose up
+- Build containers: `docker compose build --no-cache`
+- Start stack: `./start.sh` (or use `docker compose up`)
 
-This will start a Keycloak server with all necessary configuration plus the Backend and Frontend projects
+To stop the project:
+
+- Stop and destroy containers, volumes and networks: `./stop.sh` (or `docker compose down -v`)
+
+This will start a Keycloak server with all necessary configuration plus the Backend and Frontend projects, after keycloak starts
 
 ## Known issues
 
