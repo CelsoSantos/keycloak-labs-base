@@ -99,8 +99,8 @@ public class RestClient {
   public String getUserInfo(String amxToken) {
 
     // String currentUserPath = System.getenv("IDP_BASE_URL") + "/moik/ext/auth/current-user";
-    String currentUserPath = System.getenv("IDP_BASE_URL") + "/v3/bdb989dd-720d-4ad6-9285-215ee6b9a481";
-    // https://run.mocky.io/v3/bdb989dd-720d-4ad6-9285-215ee6b9a481
+    String currentUserPath = System.getenv("IDP_BASE_URL") + "/v3/76075fe2-b722-4ac3-8ba8-bd07491c900f";
+    // https://run.mocky.io/v3/76075fe2-b722-4ac3-8ba8-bd07491c900f
 
     HttpGet get = new HttpGet(currentUserPath);
     HttpContext localContext = getHttpContext(amxToken);

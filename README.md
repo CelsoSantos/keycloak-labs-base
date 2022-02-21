@@ -37,10 +37,9 @@ This will start a Keycloak server with all necessary configuration plus the Back
 
 ## Known issues
 
-This implementation suffers from two issues:
+This implementation suffers from the following issues:
 
-- AccessTokens being generated fail to pass validation and request movies, with the error message: `401: Unauthorized. Token has invalid signature`
-- The very first token that is issued, does not comply with the expected format/fields. However, a page refresh will produce the accessToken in the expected format. Still, this token suffers from an invalid signature.
+- The very first token that is issued, does not comply with the expected format/fields as some of them are missing. However, a page refresh will produce the accessToken in the expected format.
 
 Check [LOGS.md](LOGS.md) for a capture of the logs/tokens produced by keycloak/
 

@@ -1,13 +1,17 @@
 package com.mydomain.auth.provider.user;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mydomain.auth.provider.dto.CircleDto;
 import com.mydomain.auth.provider.dto.LoginResponseDto;
 import com.mydomain.auth.provider.dto.RecordDto;
 import com.mydomain.auth.provider.dto.RestClient;
 import com.mydomain.auth.provider.dto.UserInfoDto;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 import javax.ws.rs.WebApplicationException;
 import lombok.Setter;
 import org.keycloak.component.ComponentModel;
@@ -15,6 +19,7 @@ import org.keycloak.credential.CredentialInput;
 import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
+import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.models.credential.PasswordCredentialModel;
 import org.keycloak.storage.StorageId;
@@ -30,7 +35,7 @@ public class CustomUserStorageProvider implements
 
   private static final Logger log = LoggerFactory.getLogger(CustomUserStorageProvider.class);
 
-	protected Map<String, UserModel> loadedUsers = new HashMap<>();
+	//protected Map<String, UserModel> loadedUsers = new HashMap<>();
 
 	@Setter
 	private ComponentModel model;
@@ -40,14 +45,14 @@ public class CustomUserStorageProvider implements
 
 	private RestClient client;
 
-	private UserModelFactory userModelFactory;
+//	private UserModelFactory userModelFactory;
 
 	// UserStorageProvider
 
-	public CustomUserStorageProvider(KeycloakSession ksession, ComponentModel model, UserModelFactory factory) {
+	public CustomUserStorageProvider(KeycloakSession ksession, ComponentModel model) { //, UserModelFactory factory) {
 		this.ksession = ksession;
 		this.model = model;
-		this.userModelFactory = factory;
+		// this.userModelFactory = factory;
 		this.client = new RestClient();
 	}
 
@@ -57,27 +62,28 @@ public class CustomUserStorageProvider implements
 
 	@Override
 	public void close() {
-		log.info("[I30] close()");
+		log.info("[I99] close()");
 	}
 
 	// UserLookupProvider
 
 	@Override
 	public UserModel getUserById(String id, RealmModel realm) {
-		log.info("[I35] getUserById({})", id);
+		log.info("[I01] getUserById({})", id);
 
-		return getUserByUsername(StorageId.externalId(id), realm);
+		// return getUserByUsername(StorageId.externalId(id), realm);
+		return findUser(realm, StorageId.externalId(id));
 	}
 
 	@Override
 	public UserModel getUserByUsername(String username, RealmModel realm) {
-		log.info("[I41] getUserByUsername({})", username);
-		return findUser(realm, username);
+		log.info("[I02] getUserByUsername({})", username);
+		return getUserByEmail(realm, username);
 	}
 
 	@Override
 	public UserModel getUserByEmail(String email, RealmModel realm) {
-		log.info("[I48] getUserByEmail({})", email);
+		log.info("[I03] getUserByEmail({})", email);
 
 		return findUser(realm, email);
 	}
@@ -86,20 +92,20 @@ public class CustomUserStorageProvider implements
 
 	@Override
 	public boolean supportsCredentialType(String credentialType) {
-		log.info("[I57] supportsCredentialType({})", credentialType);
+		log.info("[I06] supportsCredentialType({})", credentialType);
 		return credentialType.equals(PasswordCredentialModel.TYPE);
 	}
 
 	@Override
 	public boolean isConfiguredFor(RealmModel realm, UserModel user, String credentialType) {
-		log.info("[I57] isConfiguredFor(realm={},user={},credentialType={})", realm.getName(), user.getUsername(),
+		log.info("[I07] isConfiguredFor(realm={},user={},credentialType={})", realm.getName(), user.getUsername(),
 				credentialType);
 		return supportsCredentialType(credentialType);
 	}
 
 	@Override
 	public boolean isValid(RealmModel realm, UserModel user, CredentialInput credentialInput) {
-		log.info("[I57] isValid(realm={},user={},credentialInput.type={})", realm.getName(), user.getUsername(),
+		log.info("[I08] isValid(realm={},user={},credentialInput.type={})", realm.getName(), user.getUsername(),
 				credentialInput.getType());
 
 		if (!supportsCredentialType(credentialInput.getType())) {
@@ -127,25 +133,13 @@ public class CustomUserStorageProvider implements
 				// We just use a subset of the returned data
 				RecordDto userRecord = mappedUser.getRecords().get(0);
 
-				// Clean the "temporary" record with just the user email
-				// TODO: Can I maybe "fork" behaviour depending on the type of the object originating the UserModel?
-				log.info("[I9] Checking if temporary user exists..");
-				UserModel adapter = findUser(realm, user.getUsername());
-				if (adapter != null) {
-					log.info("[I10] Removing id={}; username={} from adapter", adapter.getId(), adapter.getUsername());
-					log.info("[I11] Adapter type: {}", adapter.getClass());
-					loadedUsers.remove(adapter.getId());
-//					ksession.userCache().clear();
-				}
-
 				// Now that we have the userData with all information, set the model with all properties and attributes
 				// TODO: For some reason, looks like the username is not being properly set by the JSON mapping.
 				userRecord.setUsername(userRecord.getEmail()); // Set the username so the adapter doesn't fail
-				UserModel newAdapter = userModelFactory.create(realm, userRecord);
-//				UserModel newAdapter = new FederatedUserAdapter(ksession, realm, model, userRecord);
-				loadedUsers.put(user.getUsername(), newAdapter);
-				if (null != newAdapter)
-					ksession.userCache().clear();
+
+				// Now let's see if we need to add to permanent storage, meaning
+				// it was the first time the user logged in, we need to create it
+				addToStorage(realm, userRecord);
 
 				isSuccessfulLogedIn = true;
 			} else {
@@ -162,36 +156,129 @@ public class CustomUserStorageProvider implements
 	// Local utility methods
 
 	private UserModel findUser(RealmModel realm, String identifier) {
-		log.info("[I69] findUser(identifier={})", identifier);
+		log.info("[I04] findUser(identifier={})", identifier);
 
-		// See if the user is already loaded in-memory
-		log.info("Loaded Users: {}", loadedUsers.values().stream().map(Object::toString).collect(Collectors.joining(";")));
-		UserModel adapter = loadedUsers.get(identifier);
+		UserModel adapter = getFromStorage(realm, identifier);
 
-		// If not, then let's see if we have a stored user with this identifier
-		if (adapter == null) {
-			log.info("[I70] no user in loadedusers.. getting from localstorage...");
-			adapter = ksession.userLocalStorage().getUserById(realm, identifier);
-			// Put user in the loaded users in-memory
-			loadedUsers.put(identifier, adapter);
-		}
-
-		// If there is no stored user, then it must be a first login, we need a ReadOnlyAdapter
 		if (adapter == null) {
 			try {
-				log.info("[I71] no user in localstorage.. creating ReadOnlyAdapter");
+				log.info("[I04] no user in userLocalStorage...");
+				log.info("[I04] creating temporary FederatedAdapter...");
 				// Create a "temporary" userModel with just the email
-				adapter = new ReadOnlyUserAdapter(ksession, realm, model, identifier);
-//				adapter = new FederatedUserAdapter(ksession, realm, model, identifier);
-				loadedUsers.put(identifier, adapter);
+				// This happens the very first time a user logs-in and we need to create it
+				adapter = new FederatedUserAdapter(ksession, realm, model, identifier);
 			} catch (WebApplicationException e) {
 				log.warn("User with identifier '{}' could not be found, response from server: {}", identifier,
 						e.getResponse().getStatus());
 			}
 		} else {
-			log.debug("Found user data for {} in loadedUsers.", identifier);
+			log.debug("[I04] Found user data for user [{}] in userLocalStorage.", identifier);
 		}
 
+		//if (adapter != null)
+		//	loadedUsers.put(identifier, adapter);
+
 		return adapter;
+	}
+
+	private UserModel getFromStorage(RealmModel realm, String identifier) {
+		log.info("[I05] getFromStorage(identifier={})", identifier);
+		log.info("[I05] Trying to find user [{}] in userLocalStorage...", identifier);
+		return ksession.userLocalStorage().getUserByUsername(realm, identifier);
+	}
+
+	private void addToStorage(RealmModel realm, UserDetails user) {
+		log.info("[I09] addToStorage(identifier={})", user.getEmail());
+		UserModel local = getFromStorage(realm, user.getEmail());
+
+		if (local == null) {
+			log.info("[I09] User not found in userLocalStorage...");
+			log.info("[I09] Adding to userLocalStorage...");
+			local = ksession.userLocalStorage().addUser(
+					realm,
+					user.getEmail(),
+					user.getEmail(),
+					true,
+					false);
+
+			log.info("[I09] Setting attributes...");
+			setUserAttributes(local, user);
+			if (user.getAdditionalInfo() != null) {
+				String additionalInfo = user.getAdditionalInfo();
+
+				log.info("[I09] Setting roles...");
+				getRoleModels(additionalInfo, realm)
+						.forEach(local::grantRole);
+			}
+
+			log.info("[I09] Setting Federation link and email status...");
+			log.info("[I09] Model ID: {}", model.getId());
+			local.setFederationLink(model.getId());
+			local.setEnabled(true);
+			local.setEmailVerified(true);
+
+			//log.info("[I09] Clearing loadedUsers...");
+			//loadedUsers.clear();
+
+			log.info("[I09] Cleaning session userCache...");
+			ksession.userCache().clear();
+		}
+	}
+
+	private void setUserAttributes(UserModel model, UserDetails user) {
+		log.info("[I10] setUserAttributes()");
+		model.setSingleAttribute(UserModel.FIRST_NAME, user.getFirstName());
+		model.setSingleAttribute(UserModel.LAST_NAME, user.getLastName());
+		model.setSingleAttribute(UserModel.EMAIL, user.getEmail());
+
+		model.setSingleAttribute("originalId", user.getId());
+		model.setSingleAttribute("parentToken", user.getSessionId());
+		model.setSingleAttribute("name", user.getFullName());
+		model.setSingleAttribute("phoneNumber", user.getPhoneNumber());
+		model.setSingleAttribute("organizationId", System.getenv("ORGANIZATION_ID"));
+	}
+
+	public Stream<RoleModel> getRoleModels(String additionalInfo, RealmModel realm) {
+		log.info("[I11] getRoleModels()");
+		ObjectMapper mapper = new ObjectMapper();
+		CircleDto circle;
+
+		List<String> roles = new ArrayList<>();
+		try {
+			circle = mapper.readValue(additionalInfo, CircleDto.class);
+
+			if (circle != null && circle.isActionableContent())
+				roles.add("ac-consumer");
+
+			if (circle != null && circle.isMipIndicative())
+				roles.add("mip-indicative");
+
+			if (circle != null && circle.isMipFull())
+				roles.add("mip-full");
+
+			if(circle != null && circle.isLcmBasic())
+				roles.add("lcm-basic");
+
+			if(circle != null && circle.isLcmFull())
+				roles.add("lcm-full");
+
+		} catch (JsonProcessingException e) {
+			log.error("[ERROR] roleMapping", e);
+			e.printStackTrace();
+		}
+
+		return roles.stream()
+				.map(r -> getRoleModel(realm, r))
+				.filter(Optional::isPresent)
+				.map(Optional::get);
+	}
+
+	private Optional<RoleModel> getRoleModel(RealmModel realm, String role) {
+		log.info("[I12] getRoleModel()");
+		return Optional.ofNullable(realm.getRole(role))
+				.or(() -> {
+					log.debug(String.format("Added role %s to realm %s", role, realm.getName()));
+					return Optional.ofNullable(realm.addRole(role));
+				});
 	}
 }

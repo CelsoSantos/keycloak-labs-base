@@ -1417,7 +1417,7 @@
           "config": {
             "userinfo.token.claim": "true",
             "user.attribute": "zoneinfo",
-            "id.token.claim": "true",
+            "id.token.claim": "false",
             "access.token.claim": "true",
             "claim.name": "http://mydomain\\.com/zoneinfo",
             "jsonType.label": "String"
@@ -1463,7 +1463,7 @@
         },
         {
           "id": "6b15d413-71da-4adc-a026-37289c359f0b",
-          "name": "sub-mapper",
+          "name": "originalid-mapper",
           "protocol": "openid-connect",
           "protocolMapper": "oidc-usermodel-attribute-mapper",
           "consentRequired": false,
@@ -1472,7 +1472,7 @@
             "user.attribute": "originalId",
             "id.token.claim": "true",
             "access.token.claim": "true",
-            "claim.name": "sub",
+            "claim.name": "alt-sub",
             "jsonType.label": "String"
           }
         }
@@ -1634,6 +1634,32 @@
       }
     ],
     "org.keycloak.keys.KeyProvider": [
+      {
+        "id": "f63508c9-bd93-4a05-b3af-909b68bfebe9",
+        "name": "iam-rsa",
+        "providerId": "rsa",
+        "subComponents": {},
+        "config": {
+          "privateKey": [
+            "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEAgOzRS9EXueYs5f/Ag4K3AgFsBhuWfrs6J6/WukIi+Anv4Tba\nL3EWUQxt6PTpfSypNJsCEW88P6ouAQJGJyJAsUPs96xgS9H2OUpnezRDelrtARbW\ndKeDPBgyGJhQOEvWgyfwWVEg36uZvERxYc1oCTa3U4pXJYNYfFmz35fBJlIElwDy\nH1Pubr6vsJOoA2LgzLxG33weXfupuS4Z80LvLbIrU10tDMxonfJEBE8g8VEr2OuA\nOXiYnGBNfRn/NctsA7tIG/Z1yoKZrePfajzztwSIyQ1wKNOMlDoM61dI/EcuNi2Y\nAX4bp2I2eNhFmz+9vzjVq64USdwX/XlZvG5EEwIDAQABAoIBAGrxho+oi1DWYSoM\nY0nztREB0vSiD81iS1Q+ZRUt5UnxHD2qPYSa/xMOB2H1PnVqBZWwex+xML3y0aRe\nmYi+vgENQlUUdPCP4voVAQ/PA6ZMJEsCAbTUe2TvAScruWdpaTB0gcflJyrCco0c\nDR0+wOzbqWiv2agxcsX7ttxjSoIY2FSr0h6BCFCUbZENqddr31tdkgxmRtHSHypS\n16WRG4xlKILsKsHTSCqXBsAD7FVSlM8QLaMz7HK41fHROqGS18GLWyefwzqQwLMR\nK3HDZE/zxTy/x6hc0x9xqWRTASecnBwwUbh75a3YpJ/eXOgqLJet8JX5AXmAOQg0\neYajyQkCgYEA0c2MQsW3wkxMKXIKaceyWSZls7UwpVOqBj9BUlXZY5+dq6F+g2by\nxlX2lJ4RDSKaiU6kORJzqZzTJxgU2uWjDTJyNtiJqGA/Xgz6NQ+wbsHshAx09b/J\namh8VDvC66zJTNQSidKYRcmOtDJ27zC4a7FjpbRolHuxCaWgkT/wGZcCgYEAnVA9\nD+6NkM/Z6WMYqw9J+MUxRH2ccv+DBww7QIhpMjUIW/Y+FGXskuqBw+0USsGyqh+a\nhGM3svzB7lRyr+tp/DeE5dTiY5J4CN7EZ53q+Bj9pFuth9NpLLaW6PCem/UQc7Wm\n+hS+zkWfUhIASgFU+0aUVlmeMVhKstWNrxW/oOUCgYEAnmWIWrU5qji+W6Ac2oYJ\nUaNar1XBl2BWAodpQsdL7BoLCRRRFtX3vuQR2VyJVRhmAfpcpDYZGtoq1N4qiKVM\n9965Ok07iOK5lMFJehwRQV2punxJJWyZnXurOlEwNYxrIlUOdf2IN1AYLFXZU3a+\nFZiEugs91bSZEcZ5NpBGLpsCgYEAjVzpQkPQGu1smHlgVXdrtY0d9LobuIs7Jz4q\nkJcEUQWu+VSR/KqKqIrrCTEmJvdgode8dnLiPok7i/t/A+68UtVhK1beCTQ5gV8N\nhz81QrTSWLu5eHDV9kQt4C05mlPh8Nivr9Ksk5ekz481i0sfHp4R9naZ3SXGGmYk\n58zXYrECgYBGtah2X/J5CNXCmpT8toMYIUb6XiHMO7ncfWqfJCoF+zNioaotBa3y\ncyrUT3dtOD7fxSLWcuNA0g676InG/Xc9+3OZKab/IqhlCSdq/MP/HSNpnQi6rf50\nBmAgYojF5ddi9Bs+MTQy5el9BBm+MDUxjfSHxh+WgRAxccKsn2CmGw==\n-----END RSA PRIVATE KEY-----\n"
+          ],
+          "certificate": [
+            "-----BEGIN CERTIFICATE-----\nMIIDmjCCAoICCQCn6fQxKtUclDANBgkqhkiG9w0BAQsFADCBjjELMAkGA1UEBhMC\nUFQxCzAJBgNVBAgMAkx4MQ8wDQYDVQQHDAZMaXNib24xDjAMBgNVBAoMBUV2b29x\nMQ4wDAYDVQQLDAVFdm9vcTEbMBkGA1UEAwwSY3NhbnRvcy5uby1pcC5iaXouMSQw\nIgYJKoZIhvcNAQkBFhVjZWxzby5zYW50b3NAZXZvb3EuY2gwHhcNMjExMTE3MTQy\nODM1WhcNMjQxMTE2MTQyODM1WjCBjjELMAkGA1UEBhMCUFQxCzAJBgNVBAgMAkx4\nMQ8wDQYDVQQHDAZMaXNib24xDjAMBgNVBAoMBUV2b29xMQ4wDAYDVQQLDAVFdm9v\ncTEbMBkGA1UEAwwSY3NhbnRvcy5uby1pcC5iaXouMSQwIgYJKoZIhvcNAQkBFhVj\nZWxzby5zYW50b3NAZXZvb3EuY2gwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK\nAoIBAQCA7NFL0Re55izl/8CDgrcCAWwGG5Z+uzonr9a6QiL4Ce/hNtovcRZRDG3o\n9Ol9LKk0mwIRbzw/qi4BAkYnIkCxQ+z3rGBL0fY5Smd7NEN6Wu0BFtZ0p4M8GDIY\nmFA4S9aDJ/BZUSDfq5m8RHFhzWgJNrdTilclg1h8WbPfl8EmUgSXAPIfU+5uvq+w\nk6gDYuDMvEbffB5d+6m5LhnzQu8tsitTXS0MzGid8kQETyDxUSvY64A5eJicYE19\nGf81y2wDu0gb9nXKgpmt499qPPO3BIjJDXAo04yUOgzrV0j8Ry42LZgBfhunYjZ4\n2EWbP72/ONWrrhRJ3Bf9eVm8bkQTAgMBAAEwDQYJKoZIhvcNAQELBQADggEBACcs\niaerTZ0QLW9LZtr1gRPVKodRb3NEca+gd5DY7HwZsena+DTLFqXz0tcRMfj4uf8H\nyPhDqqydlUalf/rtu5eU06usnoIPHeStqrtVFvKAKQ+ZOEyUEEw/qrxAdBAASotz\nq1FmG3MUGBjfC3zwEn5VrQQhItGFeWcZ7HpagKKtsFdM5NLUAOhTkle/HhFCKiUV\nnycR1+jLNerZLOS9SShVzMeOjcuTbBpnh+wW1RCOv912rjRSFoCWW12mpvaBZtJX\nVI9jLIFHcuz6cZ45YF3CLcSbZfFo4TKFY8PA+XmtRj7jofk2h7s4RfGqMOu1owKM\nNUzAhCTJTgYkn09MyK4=\n-----END CERTIFICATE-----\n"
+          ],
+          "active": [
+            "true"
+          ],
+          "priority": [
+            "200"
+          ],
+          "enabled": [
+            "true"
+          ],
+          "algorithm": [
+            "RS256"
+          ]
+        }
+      },
       {
         "id": "115253d1-c4de-4bf9-ac67-12e8460e69b1",
         "name": "aes-generated",

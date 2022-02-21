@@ -6,10 +6,10 @@ services:
     ports:
       - 8443:80
     environment:
-      - KEYCLOAK_URL=http://keycloak:9900 # Add this to your hosts file: "127.0.0.1 keycloak"
-      - KEYCLOAK_REALM=mydomain
-      - KEYCLOAK_CLIENT_ID=iam
-      - BACKEND_BASE_PATH=http://backend:9000
+      KEYCLOAK_URL: http://keycloak:9900 # Add this to your hosts file: "127.0.0.1 keycloak"
+      KEYCLOAK_REALM: mydomain
+      KEYCLOAK_CLIENT_ID: iam
+      BACKEND_BASE_PATH: http://backend:9000
     depends_on:
       - keycloak
       - backend
@@ -21,10 +21,12 @@ services:
     container_name: backend
     ports:
       - 9000:9000
+      - 5005:5005
     environment:
-      - APP_NAME=movies-app
-      - KEYCLOAK_URL=http://keycloak:9900
-      - KEYCLOAK_REALM=mydomain
+      JAVA_TOOL_OPTIONS: -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,address=*:5005,suspend=n
+      APP_NAME: movies-app
+      KEYCLOAK_URL: http://host.docker.internal:9900
+      KEYCLOAK_REALM: mydomain
     depends_on:
       - keycloak
     networks:
@@ -36,18 +38,18 @@ services:
       - "9900:8080"
       - "8787:8787"
     environment:
-      # - IDP_BASE_URL=https://idp.thirdparty.com
-      - IDP_BASE_URL=https://run.mocky.io
-      - DOMAIN=keycloak.mydomain.com
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=password
-      - KEYCLOAK_IMPORT=/tmp/realm-export.json
-      - PROXY_ADDRESS_FORWARDING=true
-      - JAVA_OPTS_APPEND="-Dkeycloak.profile.feature.upload_scripts=enabled"
-      - ORGANIZATION_ID=491a6eb7-9ea1-4612-a9b3-bfa25935bbb2
-      - AUDIENCE=https://dev.mydomain.com/
-      - DEBUG=true
-      - DEBUG_PORT='*:8787'
+      # IDP_BASE_URL: https://idp.thirdparty.com
+      IDP_BASE_URL: https://run.mocky.io
+      DOMAIN: keycloak.mydomain.com
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
+      PROXY_ADDRESS_FORWARDING: true
+      JAVA_OPTS_APPEND: "-Dkeycloak.profile.feature.upload_scripts=enabled"
+      ORGANIZATION_ID: 491a6eb7-9ea1-4612-a9b3-bfa25935bbb2
+      AUDIENCE: https://dev.mydomain.com/
+      DEBUG: true
+      DEBUG_PORT: '*:8787'
     volumes:
       - ./keycloak/realm-export.json:/tmp/realm-export.json
       - ./certs:/tmp/certs:rw
