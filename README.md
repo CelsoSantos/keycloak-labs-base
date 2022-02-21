@@ -44,7 +44,7 @@ At the root of the project, run the following commands:
 
 To stop the project:
 
-- Stop and destroy containers, volumes and networks: `./stop.sh` (or `docker compose down -v`)
+- Stop and destroy containers, volumes and networks: `./down.sh` (or `docker compose down -v`)
 
 This will start a Keycloak server with all necessary configuration plus the Backend and Frontend projects, after keycloak starts
 
