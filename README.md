@@ -48,13 +48,7 @@ To stop the project:
 
 This will start a Keycloak server with all necessary configuration plus the Backend and Frontend projects, after keycloak starts
 
-## Known issues
-
-This implementation suffers from the following issues:
-
-- The very first token that is issued, does not comply with the expected format/fields as some of them are missing. However, a page refresh will produce the accessToken in the expected format.
-
-Check [LOGS.md](LOGS.md) for a capture of the logs/tokens produced by keycloak/
+Check [LOGS.md](LOGS.md) for a capture of the logs/tokens produced by keycloak
 
 ## References
 
