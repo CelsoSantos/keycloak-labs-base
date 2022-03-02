@@ -1472,7 +1472,7 @@
             "user.attribute": "originalId",
             "id.token.claim": "true",
             "access.token.claim": "true",
-            "claim.name": "alt-sub",
+            "claim.name": "sub",
             "jsonType.label": "String"
           }
         }

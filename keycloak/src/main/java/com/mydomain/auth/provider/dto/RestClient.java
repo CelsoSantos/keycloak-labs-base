@@ -74,7 +74,7 @@ public class RestClient {
     return loginBodyResponse;
   }
 
-  public String login(String email, String password) throws IOException {
+  public LoginResponseDto login(String email, String password) throws IOException {
 
     // String url = System.getenv("IDP_BASE_URL") + "/moik/ext/login/login";
     String url = System.getenv("IDP_BASE_URL") + "/v3/e93a0baa-1a46-4500-a117-4611d6c50139";
@@ -92,11 +92,11 @@ public class RestClient {
     try (CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = httpClient.execute(post)) {
 
-      return EntityUtils.toString(response.getEntity());
+      return mapLoginResponse(EntityUtils.toString(response.getEntity()));
     }
   }
 
-  public String getUserInfo(String amxToken) {
+  public RecordDto getUserInfo(String amxToken) {
 
     // String currentUserPath = System.getenv("IDP_BASE_URL") + "/moik/ext/auth/current-user";
     String currentUserPath = System.getenv("IDP_BASE_URL") + "/v3/76075fe2-b722-4ac3-8ba8-bd07491c900f";
@@ -104,12 +104,14 @@ public class RestClient {
 
     HttpGet get = new HttpGet(currentUserPath);
     HttpContext localContext = getHttpContext(amxToken);
-    String userInfo = "";
+    RecordDto userInfo = null;
 
     try (CloseableHttpClient client = HttpClients.createDefault()) {
       CloseableHttpResponse response = client.execute(get, localContext);
-      userInfo = EntityUtils.toString(response.getEntity());
-      return userInfo;
+      UserInfoDto mappedUser = mapUserInfo(EntityUtils.toString(response.getEntity()));
+      if (mappedUser != null && !mappedUser.getRecords().isEmpty()) {
+        return mappedUser.getRecords().get(0);
+      }
     } catch (IOException e) {
       log.error("Error in getUserInfo: ", e);
     }
