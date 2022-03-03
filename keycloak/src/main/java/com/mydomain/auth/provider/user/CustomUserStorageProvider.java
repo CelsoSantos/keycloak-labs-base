@@ -205,11 +205,13 @@ public class CustomUserStorageProvider implements
 
 	private UserModel addToStorage(RealmModel realm, String identifier) {
 		log.info("[I06] addToStorage(realm={}, identifier={})", realm.getId(), identifier);
+
+		// addUser(RealmModel realm, String id, String username, boolean addDefaultRoles, boolean addDefaultRequiredActions)
 		UserModel adapter = ksession.userLocalStorage().addUser(
 				realm,
 				UUID.randomUUID().toString(),
 				identifier,
-				true,
+				false,
 				false);
 
 		log.info("[I06] Setting Federation link and email status...");
@@ -266,11 +268,12 @@ public class CustomUserStorageProvider implements
 		model.setSingleAttribute("name", user.getFullName());
 		model.setSingleAttribute("phoneNumber", user.getPhoneNumber());
 		model.setSingleAttribute("organizationId", System.getenv("ORGANIZATION_ID"));
+
 		return model;
 	}
 
-	public Stream<RoleModel> getRoleModels(RealmModel realm, String additionalInfo) {
-		log.info("[I12] getRoleModels(realm={}, additionalInfo={})", realm.getName(), additionalInfo);
+	public List<String> mapRoles(String additionalInfo) {
+		log.info("[I12] mapRoles(additionalInfo={})", additionalInfo);
 		ObjectMapper mapper = new ObjectMapper();
 		CircleDto circle;
 
@@ -298,14 +301,20 @@ public class CustomUserStorageProvider implements
 			e.printStackTrace();
 		}
 
-		return roles.stream()
+		return roles;
+	}
+
+	public Stream<RoleModel> getRoleModels(RealmModel realm, String additionalInfo) {
+		log.info("[I13] getRoleModels(realm={}, additionalInfo={})", realm.getName(), additionalInfo);
+
+		return mapRoles(additionalInfo).stream()
 				.map(r -> getRoleModel(realm, r))
 				.filter(Optional::isPresent)
 				.map(Optional::get);
 	}
 
 	private Optional<RoleModel> getRoleModel(RealmModel realm, String role) {
-		log.info("[I13] getRoleModel(realm={}, role={})", realm.getName(), role);
+		log.info("[I14] getRoleModel(realm={}, role={})", realm.getName(), role);
 		return Optional.ofNullable(realm.getRole(role))
 				.or(() -> {
 					log.debug(String.format("Added role %s to realm %s", role, realm.getName()));

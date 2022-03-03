@@ -1462,18 +1462,18 @@
           }
         },
         {
-          "id": "6b15d413-71da-4adc-a026-37289c359f0b",
-          "name": "originalid-mapper",
+          "id": "54bc90bb-6ca5-4a91-aea6-2e864491cfc0",
+          "name": "originalid-subject-mapper",
           "protocol": "openid-connect",
-          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "protocolMapper": "oidc-script-based-protocol-mapper",
           "consentRequired": false,
           "config": {
             "userinfo.token.claim": "true",
-            "user.attribute": "originalId",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "sub",
-            "jsonType.label": "String"
+            "jsonType.label": "String",
+            "script": "token.setSubject(user.getFirstAttribute(\"originalId\"));"
           }
         }
       ]
